@@ -1,0 +1,68 @@
+<section class="hero" style="background-image: url('start_picture1.jpg')">
+    <div layout="column"  flex class="intro row" layout-align="center center">
+        <div layout-align="center start">
+          <img src="logo.png" style="margin: auto; width: 30%; display: block;">
+        </div><br>
+        <h1>Plan events in no time and with ease...</h1>
+        <p>Our team is presenting you an innovative solution for planning and scheduling various events
+        in an unusually effective and pleasent way.</p>
+      <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button class="md-raised md-primary" ng-click="home.startInCalendar()">Start now</md-button>
+        <md-button class="md-raised md-accent" id="moreInfoBtn" href="#moreInfo">Learn more</md-button>
+      </section>
+    </div>
+</section>
+
+<md-content class="md-padding" layout-xs="column" layout="row" id="moreInfo">
+
+  <md-card flex-xs flex-gt-xs="33">
+    <img ng-src="spaces.png" class="md-card-image">
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Calendar</span>
+        <span class="md-subhead">Plan events in time</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <p>
+        Use the calendar to organise events and tasks.
+        You can easily create them from event templates using drag'n'drop feature.
+      </p>
+    <md-card-actions layout="row" layout-align="end center">
+      <md-button>Go to calendar</md-button>
+    </md-card-actions>
+  </md-card>
+    <md-card flex-xs flex-gt-xs="33">
+      <img ng-src="eventTemplates.png" class="md-card-image">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Event Templates</span>
+          <span class="md-subhead">Dealing with repetetive events</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <p>
+          Tired with making similar events over and over again? Create event once and modify only when required.
+        </p>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button>Make a template</md-button>
+      </md-card-actions>
+    </md-card>
+    <md-card flex-xs flex-gt-xs="33">
+      <img ng-src="people.png" class="md-card-image">
+      <md-card-title>
+        <md-card-title-text>
+          <span class="md-headline">Roles</span>
+          <span class="md-subhead">People are the factors</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-content>
+        <p>
+          Create roles in events and assign them to people.
+        </p>
+      <md-card-actions layout="row" layout-align="end center">
+        <md-button>Add some people</md-button>
+      </md-card-actions>
+    </md-card>
+
+  </md-content>

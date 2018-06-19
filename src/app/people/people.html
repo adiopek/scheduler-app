@@ -1,0 +1,160 @@
+<md-content layout="row" layout-align="center start">
+  <md-card flex="50">
+        <md-toolbar class="md-primary">
+              <div class="md-toolbar-tools">
+                <span>People</span>
+              </div>
+        </md-toolbar>
+        <md-tabs md-border-bottom style="min-height: 80vh;">
+          <md-tab label="Individuals">
+            <md-card-content flex>
+              <md-content>
+              <md-list id="peopleList" flex style="height: 60vh;">
+
+                  <md-list-item class="secondary-button-padding list-element" ng-repeat='person in individPeople' ng-click='people.selectPerson(person)'>
+                    <div flex class="md-list-item-text" layout="row">
+                      <p flex>{{person.first_name}} {{person.last_name}}</p>
+                      <p flex>{{person.email}}</p>
+                      <p flex>{{person.phone}}</p>
+                    </div>
+                    <i class="material-icons person" ind={{$index}}>drag_handle</i>
+                  </md-list-item>
+              </md-list>
+            </md-content>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button class="md-fab md-accent" layout="column" layout-align="center center" ng-click="people.selectPerson(null)">
+                <i class="material-icons">add</i>
+              </md-button>
+            </md-card-actions>
+          </md-tab>
+          <md-tab label="Groups">
+            <md-card-content flex>
+              <md-content>
+              <md-list id="groupsList" flex style="height: 60vh;">
+                  <md-list-item class="secondary-button-padding list-element" ng-repeat='group in groups' ng-click='people.selectGroup(group)'> <!--ng-repeat="item in todos" ng-click="spaces.goToSchedule('monthVw')"> -->
+                    <div flex class="md-list-item-text" layout="row">
+                      <p flex>{{group.name}}</p>
+                      <p flex>{{group.description}}</p>
+                    </div>
+                  </md-list-item>
+              </md-list>
+            </md-content>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button class="md-fab md-accent" layout="column" layout-align="center center" ng-click="people.selectGroup(null)">
+                <i class="material-icons">add</i>
+              </md-button>
+            </md-card-actions>
+          </md-tab>
+        </md-tabs>
+      </md-card>
+
+      <md-card flex="50" ng-hide="isGroupSelected">
+        <md-toolbar id="templateTitle" class="md-primary">
+              <div class="md-toolbar-tools">
+                <span>{{selectedPerson.first_name}} {{selectedPerson.last_name}}</span>
+                <span ng-if="selectedPerson.first_name==''&&selectedPerson.last_name==''&&selectedPerson.id==null">New person</span>
+              </div>
+        </md-toolbar>
+        <md-card-content>
+          <md-input-container class="md-block" flex="90">
+            <label>First name</label></input>
+            <input ng-model="selectedPerson.first_name"></input>
+          </md-input-container>
+          <md-input-container class="md-block" flex="90">
+            <label>Last name</label></input>
+            <input ng-model="selectedPerson.last_name"></input>
+          </md-input-container>
+          <md-input-container class="md-block" flex="90">
+            <label>E-mail address</label></input>
+            <input ng-model="selectedPerson.email"></input>
+          </md-input-container>
+          <md-input-container class="md-block" flex="90">
+            <label>Phone number</label></input>
+            <input ng-model="selectedPerson.phone"></input>
+          </md-input-container>
+
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-show="selectedPerson.id==null" class="md-accent md-raised" layout="row" layout-align="center center"
+                       ng-disabled="selectedPerson.first_name==''||selectedPerson.first_name==''"
+                       ng-click="people.addPerson()">
+              <span>Add person</span>
+            </md-button>
+            <md-button ng-show="selectedPerson.id!=null" class="md-warn md-raised" layout="column" layout-align="center center"
+                       ng-disabled=""
+                       ng-click="people.deletePerson()">
+              <span>Delete person</span>
+            </md-button>
+            <md-button ng-show="selectedPerson.id!=null" class="md-accent md-raised" layout="column" layout-align="center center"
+                       ng-disabled="selectedPerson.first_name==''||selectedPerson.last_name==''"
+                       ng-click="people.updatePerson()">
+              <span>Save changes</span>
+            </md-button>
+          </md-card-actions>
+        </md-card-content>
+
+      </md-card>
+
+      <md-card flex="50" ng-show="isGroupSelected" >
+        <md-toolbar id="templateTitle" class="md-primary">
+              <div class="md-toolbar-tools">
+                <span>{{selectedGroup.name}}</span>
+                <span ng-if="selectedGroup.name==''&&selectedGroup.id==null">New group</span>
+              </div>
+        </md-toolbar>
+        <md-card-content>
+
+          <md-input-container class="md-block" flex="90">
+            <label>Group name</label></input>
+            <input ng-model="selectedGroup.name">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Description</label>
+            <textarea md-maxlength="120" rows="3" ng-model="selectedGroup.description"></textarea>
+          </md-input-container>
+
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-show="selectedGroup.id==null" class="md-accent md-raised" layout="row" layout-align="center center"
+                       ng-disabled="selectedGroup.name==''"
+                       ng-click="people.addGroup()">
+              <span>Add group</span>
+            </md-button>
+            <md-button ng-show="selectedGroup.id!=null" class="md-warn md-raised" layout="column" layout-align="center center"
+                       ng-disabled=""
+                       ng-click="people.deleteGroup()">
+              <span>Delete group</span>
+            </md-button>
+            <md-button ng-show="selectedGroup.id!=null" class="md-accent md-raised" layout="column" layout-align="center center"
+                       ng-disabled="selectedGroup.name==''"
+                       ng-click="people.updateGroup()">
+              <span>Save changes</span>
+            </md-button>
+          </md-card-actions>
+          <md-content ng-show="selectedGroup.id!=null">
+            <md-toolbar class="md-primary">
+                  <div class="md-toolbar-tools">
+                    <span>Members</span>
+                  </div>
+            </md-toolbar>
+
+            <md-list flex style="height: 40vh;" class="person_drop">
+                <md-list-item class="secondary-button-padding" ng-repeat='person in selectedGroupMembers'>
+                  <div flex class="md-list-item-text" layout="row">
+                    <p flex>{{person.first_name}} {{person.last_name}}</p>
+                    <p flex>{{person.email}}</p>
+                    <p flex>{{person.phone}}</p>
+                  </div>
+                  <md-button class="md-icon-button" ng-click="people.deletePersonFromGroup(person.id)">
+                    <md-icon class="material-icons">clear</md-icon>
+                  </md-button>
+                </md-list-item>
+            </md-list>
+          </md-content>
+
+        </md-card-content>
+
+      </md-card>
+
+
+</md-content>

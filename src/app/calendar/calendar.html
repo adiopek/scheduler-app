@@ -1,0 +1,191 @@
+<div layout="row" layout-align="start top">
+  <md-card flex="30">
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-headline">Event templates</span>
+        <span class="md-subhead">Drag and drop</span>
+      </md-card-header-text>
+    </md-card-header>
+    <md-card-content>
+      <md-content>
+        <md-list style="height: 69vh;">
+          <md-list-item class="md-3-line " ng-repeat="template in templates" on-finish-render="ngRepeatFinished">
+            <div flex layout="row" layout-margin>
+              <div flex="5" style='background-color: {{template.defColor}}'></div>
+              <div class="md-list-item-text" layout="column">
+                <h3>{{template.defName}}</h3>
+                <h4>
+                  <span ng-show="!template.allDay">{{ template.momentStart.format("HH:mm") }}</span>
+                  <span ng-show="template.allDay">All day</span>
+                </h4>
+                <p>
+                  <span ng-show="template.defDur.days>0">{{template.defDur.days}}d </span>
+                  <span ng-show="template.defDur.hours>0">{{template.defDur.hours}}h </span>
+                  <span ng-show="template.defDur.minutes>0">{{template.defDur.minutes}}m </span>
+                </p>
+              </div>
+            </div>
+            <i class="material-icons template_handle">drag_handle</i>
+          </md-list-item>
+        </md-list>
+      </md-content>
+    </md-card-content>
+  </md-card>
+
+    <md-card flex ng-show="!eventView">
+      <div id="workspace"></div>
+    </md-card>
+
+  <md-card flex ng-show="eventView">
+    <md-toolbar id="templateTitle" class="md-primary">
+          <div class="md-toolbar-tools">
+            <div flex layout="row" layout-align="start center">
+              <div ng-repeat='item in selectedEvent.parents' layout="row" layout-align="center center">
+                <a href ng-click='calendar.goToParent(item, $index)'>{{item.defName}}</a>
+                <i class="material-icons">keyboard_arrow_right</i>
+              </div>
+              <span>{{selectedEvent.defName}}</span>
+              <span ng-if="selectedEvent.defName==''&&selectedEvent.id==null">New event</span>
+            </div>
+            <md-button class="md-icon-button" ng-click="eventView=false;">
+              <md-icon class="material-icons">open_in_browser</md-icon>
+            </md-button>
+          </div>
+    </md-toolbar>
+    <md-tabs md-border-bottom style="min-height: 78vh;" md-selected="selectedTab">
+      <md-tab label="General">
+        <md-card-content>
+
+          <div layout="row">
+            <md-input-container class="md-block" flex="90">
+              <label>Event name</label>
+              <input ng-model="selectedEvent.defName"></input>
+            </md-input-container>
+            <div md-color-picker="colorPickerOptions" ng-model="selectedEvent.defColor"></div>
+          </div>
+
+          <md-input-container class="md-block">
+            <label>Description</label>
+            <textarea md-maxlength="120" rows="3" ng-model="selectedEvent.description"></textarea>
+          </md-input-container>
+
+          <md-input-container>
+            <md-switch ng-model="selectedEvent.allDay" ng-disabled="selectedEvent.parents!=undefined">All-day</md-switch>
+          </md-input-container>
+
+          <div layout="row" flex="50">
+            <div ng-hide="selectedEvent.parents==undefined" flex="30" class="md-block">
+              <p>Start day: {{selectedEvent.defDay}}</p>
+            </div>
+            <md-input-container ng-show="selectedEvent.parents==undefined" class="md-block">
+              <label>Start time</label>
+              <input type="time" ng-model="selectedEvent.defStart" ng-disabled="selectedEvent.allDay"></input>
+            </md-input-container>
+            <div ng-hide="selectedEvent.parents==undefined" flex="30" class="md-block">
+              <p>Start time: {{selectedEvent.momentStart.format("HH:mm");}}</p>
+            </div>
+          </div>
+
+          Duration:
+          <div ng-show="selectedEvent.parents==undefined" layout="row" flex="30">
+
+            <md-input-container  class="md-block">
+              <label>Days</label>
+              <input ng-model="selectedEvent.defDur.days" type="number" ng-pattern="inputBlocker"></input>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <label>Hours</label>
+              <input ng-model="selectedEvent.defDur.hours" type="number" step="1" ng-disabled="selectedEvent.allDay" ng-pattern="inputBlocker"></input>
+            </md-input-container>
+
+            <md-input-container class="md-block">
+              <label>Minutes</label>
+              <input ng-model="selectedEvent.defDur.minutes" type="number" step="1" ng-disabled="selectedEvent.allDay" ng-pattern="inputBlocker"></input>
+            </md-input-container>
+          </div>
+          <div ng-hide="selectedEvent.parents==undefined" layout="row" flex="30">
+            <p>
+              <span ng-show="selectedEvent.defDur.days>0">{{selectedEvent.defDur.days}}d </span>
+              <span ng-show="selectedEvent.defDur.hours>0">{{selectedEvent.defDur.hours}}h </span>
+              <span ng-show="selectedEvent.defDur.minutes>0">{{selectedEvent.defDur.minutes}}m </span>
+            </p>
+          </div>
+
+          <md-card-actions layout="row" layout-align="end center">
+            <md-button ng-show="selectedEvent.id==null&&selectedEvent.parents!=undefined" class="md-accent md-raised" layout="column" layout-align="center center"
+                       ng-disabled="selectedEvent.defName==''||selectedEvent.defDur==''"
+                       ng-click="calendar.addEvent()">
+              <span>Nest event</span>
+            </md-button>
+            <md-button ng-show="selectedEvent.id==null&&selectedEvent.parents==undefined" class="md-accent md-raised" layout="row" layout-align="center center"
+                       ng-disabled="selectedEvent.defName==''||selectedEvent.defDur==''"
+                       ng-click="calendar.addEvent()">
+              <span>Add event</span>
+            </md-button>
+            <md-button ng-show="selectedEvent.id!=null" class="md-warn md-raised" layout="column" layout-align="center center"
+                       ng-disabled=""
+                       ng-click="calendar.deleteEvent()">
+              <span>Delete event</span>
+            </md-button>
+            <md-button ng-show="selectedEvent.id!=null" class="md-accent md-raised" layout="column" layout-align="center center"
+                       ng-disabled="selectedEvent.defName==''||selectedEvent.defDur==''"
+                       ng-click="calendar.updateEvent()">
+              <span>Save changes</span>
+            </md-button>
+          </md-card-actions>
+      </md-tab>
+      <md-tab ng-disabled="selectedEvent.id==null" label="Roles" md-on-select="calendar.peopleDragActivate();">
+        <div layout="row" layout-align="center start">
+          <div flex="50">
+            <md-list flex>
+              <md-list-item class="secondary-button-padding" ng-repeat='item in roles'>
+                <div layout="row">
+                  <md-input-container class="md-block" flex="50">
+                    <label>Role</label>
+                    <input ng-model="item.role" ng-change="calendar.roleChange(item, $index)"></input>
+                  </md-input-container>
+                  <md-input-container class="md-block" flex="50">
+                    <label>Drop people here</label>
+                    <input ind={{$index}} ng-model="item.assigned" disabled ng-blur="calendar.updateRole()" class="assignee_drop"></input>
+                  </md-input-container>
+                </div>
+                <md-button ng-hide="$last" class="md-icon-button" ng-click="roles.splice($index, 1); calendar.deleteRole(item);">
+                  <md-icon class="material-icons">clear</md-icon>
+                </md-button>
+              </md-list-item>
+            </md-list>
+          </div>
+          <md-card flex="50">
+            <md-card-header>
+              <md-card-header-text>
+                <span class="md-headline">People</span>
+                <span class="md-subhead">Drag people to roles</span>
+              </md-card-header-text>
+            </md-card-header>
+            <md-card-content>
+              <md-content>
+                <md-list flex style="height: 50vh;">
+                  <md-list-item class="md-3-line" ng-click="" ng-repeat="item in peopleAndGroups">
+                    <div layout="row">
+                      <i class="material-icons assignee" ind={{$index}}>drag_handle</i>
+                      <div class="md-list-item-text" layout="column">
+                        <h3 ng-show="!item.isGroup">{{item.first_name}} {{item.last_name}}</h3>
+                        <h3 ng-show="item.isGroup">{{item.name}}</h3>
+                        <p ng-show="item.isGroup">Group</p>
+                      </div>
+                    </div>
+                  </md-list-item>
+                </md-list>
+              </md-content>
+            </md-card-content>
+          </md-card>
+        </div>
+      </md-tab>
+      <md-tab label="Schedule" ng-disabled="selectedEvent.id==null">
+        <div id="templateSchedule"></div>
+      </md-tab>
+    </md-tabs>
+    </md-card-content>
+
+  </md-card>

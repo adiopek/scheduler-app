@@ -1,0 +1,44 @@
+<md-content layout="row" layout-align="center center">
+  <md-card flex="80">
+        <md-toolbar class="md-primary">
+              <div class="md-toolbar-tools">
+                <span>Spaces</span>
+              </div>
+        </md-toolbar>
+        <!-- <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Action buttons</span>
+          </md-card-title-text>
+        </md-card-title> -->
+        <md-card-content>
+          <md-list flex >
+              <md-subheader class="md-no-sticky" ng-show="{{ready}}">Choose one of your spaces to schedule events.</md-subheader>
+              <div layout="row" layout-sm="column" layout-align="start center" ng-hide="{{ready}}">
+                <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+              </div>
+              <md-list-item class="md-3-line" ng-repeat="item in records" ng-click="spaces.goToSchedule('monthVw')">
+                <div class="md-list-item-text" layout="column">
+                  <h3>{{ item.name }}</h3>
+                  <p>{{ item.description }}</p>
+                </div>
+                <div layout="row" layout-align="end center">
+                  <md-button class="md-icon-button md-secondary md-raised" ng-click="spaces.deleteSpace(item.id);$event.stopPropagation()">
+                    <i class="material-icons">delete</i>
+                  </md-button>
+                </div>
+              </md-list-item>
+          </md-list>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-fab md-accent" layout="column" layout-align="center center" ng-click="spaces.showAddSpaceDialog($event)">
+            <i class="material-icons">add</i>
+          </md-button>
+        </md-card-actions>
+      </md-card>
+      <div ng-if="status" id="status">
+        <b layout="row" layout-align="center center" class="md-padding">
+          {{status}}
+        </b>
+      </div>
+
+</md-content>

@@ -1,0 +1,30 @@
+<md-dialog flex="60">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>New space</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="addSpaceDialog.cancel()">
+          <i class="material-icons">clear</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container class="md-block">
+          <label>Space name</label>
+          <input ng-model="space.name">
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Description</label>
+          <textarea md-maxlength="120" rows="3" ng-model="space.description"></textarea>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row" layout-align="end center">
+      <md-button class="md-accent md-raised" ng-click="addSpaceDialog.answer()">
+        Add
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

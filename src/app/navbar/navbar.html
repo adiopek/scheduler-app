@@ -1,0 +1,19 @@
+<md-toolbar layout="row"
+            layout-align="start center"
+            layout-padding>
+    <div flex="5" hide-sm hide-xs>
+    	<img flex="90" src="logo.png">
+    </div>
+    <div flex="20">
+    	Sched-You'll
+    </div>
+    <div flex
+    	 layout="row"
+    	 layout-align="start end">
+    	<md-button ng-click="vm.sectionClick('home')">Home</md-button>
+    	<md-button ng-click="vm.sectionClick('calendar')">Calendar</md-button>
+    	<md-button ng-click="vm.sectionClick('people')">People</md-button>
+      <md-button ng-click="vm.sectionClick('eventTemplates')">Event templates</md-button>
+    </div>
+
+</md-toolbar>
